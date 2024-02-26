@@ -1,0 +1,30 @@
+protocol CustomProtocol {
+    var A: String { get }
+    var B: Int? { get set }
+    func Action()
+}
+
+class Class: CustomProtocol {
+    var A: String
+    var B: Int?
+
+    init(A: String, B: Int?) {
+        self.A = A
+        self.B = B
+    }
+
+    func Action() {
+        print("Выполнение действия")
+    }
+}
+
+var myObject = Class(A: "Hello", B: 42)
+
+print("A: \(myObject.A)")
+print("B: \(myObject.B ?? 0)")
+
+myObject.Action()
+
+myObject.B = 100
+
+print("Updated B: \(myObject.B ?? 0)")
