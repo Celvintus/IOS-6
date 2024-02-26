@@ -1,0 +1,84 @@
+import Foundation
+
+func address(of object: UnsafeRawPointer) -> String {
+    let addr = Int(bitPattern: object)
+    return String (format: "%p", addr)
+}
+
+func address(off value: AnyObject) -> String {
+return "\(Unmanaged.passUnretained(value).toOpaque())"
+}
+class SomeClass {
+var checkString: String 
+init(_ checkString: String) {
+self.checkString = checkString
+}
+}
+// пример копирования классов
+var obj1 = SomeClass ("one")
+var obj2 = obj1
+
+
+// пример копирования структур
+var number1=12345678
+var number2=number1
+
+
+// пример копирования массивов
+var arr=[1,2,3,4,5]
+var arr2=arr
+
+arr2[0] = 33
+
+// копирование строк
+var oneString = "some text some textsome textsome textsome textsome textsome textsome textsome textsome textsome textsome textsome textsome textsome textsome textsome text"
+var twoString = oneString
+
+twoString = "another text"
+
+// пример работы со своей структурой
+struct SomeStruct {
+var checkString: String
+}
+
+var five = SomeStruct (checkString: "five")
+var six = five
+six.checkString = "six"
+
+
+struct Identifier {
+var id = 1
+}
+
+class Ref<T> {
+var value: T
+init(value: T) {
+self.value = value
+}
+}
+
+struct Container<T> {
+var ref: Ref<T>
+init(value: T) {
+self.ref = Ref(value: value)
+}
+
+var value: T {
+get {
+ref.value
+}
+set {
+guard (isKnownUniquelyReferenced(&ref)) else {
+ref = Ref(value: newValue)
+return
+}
+ref.value = newValue
+}
+}
+}
+
+var id = Identifier ()
+var container1 = Container (value: id)
+var container2 = container1
+
+container2.value.id = 12
