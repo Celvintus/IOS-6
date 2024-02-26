@@ -1,0 +1,20 @@
+struct IOSCollection {
+    var videos: [String]
+
+    init(videos: [String]) {
+        self.videos = videos
+    }
+
+    mutating func addVideo(_ video: String) {
+        var newCollection = self
+        newCollection.videos.append(video)
+        self = newCollection
+    }
+}
+
+var myCollection = IOSCollection(videos: ["Introduction", "Advanced Topics"])
+var friendCollection = myCollection
+
+myCollection.addVideo("SwiftUI Basics")
+print(myCollection.videos) // ["Introduction", "Advanced Topics", "SwiftUI Basics"]
+print(friendCollection.videos) // ["Introduction", "Advanced Topics"]
